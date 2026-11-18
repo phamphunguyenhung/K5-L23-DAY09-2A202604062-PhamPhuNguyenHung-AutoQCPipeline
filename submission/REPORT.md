@@ -42,10 +42,25 @@ Nguồn: `submission/calibration/calibration_report.md` (39 ảnh calib có lỗ
 3. *Ngưỡng 10% và ngân sách 80 ảnh:* 45 ảnh cuối hàng đợi không ai xem; ảnh nào trong đó thật sự lỗi sẽ lọt vào bản nháp.
 
 ## 5. Train: raw vs clean (tùy chọn, chấm riêng)
-**Chưa chạy.** Lý do: cần GPU/Colab và lần chạy này giới hạn 30 phút, ưu tiên phần lõi; không có file `submission/results/`, không có số liệu nào được bịa. Notebook `notebooks/day09_train_compare.ipynb` giữ nguyên để chạy sau khi dataset đạt Release (hiện chỉ có bản nháp Hold).
+Đã chạy trên Colab T4 bằng `scripts/train_compare.py` (yolo26n, 20 epoch, imgsz 640, 2 seed 0/1, cùng val `gold_val` 40 ảnh và test 100 ảnh). `raw` train 224 ảnh, `clean` (`export/clean_v1`, bản nháp Hold) train 202 ảnh. Bảng do `summarize_results.py` sinh (`submission/results/comparison.md`):
+
+| biến thể | #ảnh train | seed | mAP50 (TB ± độ lệch) | mAP50-95 | precision | recall |
+|---|---:|---:|---|---|---|---|
+| raw | 224 | 2 | 0,726 ± 0,000 | 0,512 ± 0,004 | 0,764 ± 0,061 | 0,649 ± 0,028 |
+| clean | 202 | 2 | 0,701 ± 0,025 | 0,487 ± 0,008 | 0,759 ± 0,003 | 0,625 ± 0,019 |
+
+Chênh mAP50 (clean − raw) = **−0,025**, cỡ bằng độ lệch giữa hai seed của `clean` (0,718 và 0,683). Với 2 seed và test 100 ảnh, **không kết luận được** clean tốt hơn hay kém hơn raw; số liệu chỉ cho thấy clean *không* tốt hơn như kỳ vọng. AP50 theo lớp: `truck` dao động mạnh ở clean (0,59 và 0,49) so với raw (0,66 và 0,64), các lớp còn lại gần nhau.
+
+Giả thuyết giải thích (chưa kiểm, cần thí nghiệm thêm):
+1. **Rò rỉ test làm raw được thổi phồng:** raw còn 5 ảnh `LEAK_TEST` trùng kho test/val (cửa vào đã loại khỏi clean). Cách kiểm: đo lại mAP của raw trên test sau khi bỏ các ảnh test bị trùng, hoặc train raw đã bỏ 5 ảnh đó.
+2. **Clean ít ảnh hơn 10% và còn nhiễu:** 202 so với 224 ảnh, và 38 ảnh còn cảnh báo chưa người duyệt (nhãn nháp từ model). Lớp ít ảnh như `truck` chịu ảnh hưởng nhất. Cách kiểm: tăng số seed (≥ 5) và so AP theo lớp, hoặc train biến thể `oracle` (nhãn người) làm chặn trên.
+
+Việc tiếp theo: duyệt thêm 18 ảnh trong hàng đợi để đạt Release, chạy lại với nhiều seed hơn. Chưa kiểm cảnh báo của Ultralytics về ảnh/nhãn bị bỏ ở `raw`, nên chưa biết raw thực sự dùng bao nhiêu ảnh.
 
 ## 6. Quyết định và ghi chú AI
 **(a) Quyết định: HOLD.** Điều kiện để thành Release: giảm ảnh còn cảnh báo chưa duyệt xuống dưới 10% (< 21/202 ảnh), tức người duyệt thêm tối thiểu 18 ảnh trong 45 ảnh cuối hàng đợi (ưu tiên ảnh có `POSSIBLE_FALSE_POS` và `POSSIBLE_LOOSE_BOX`), hoặc nâng ngân sách duyệt; đồng thời không được còn lỗi bắt buộc.
+
+**Thưởng +3:** thêm check `pipeline/checks/aspect_ratio.py` (`BOX_ASPECT`, cạnh dài/ngắn > 8) kèm `tests/test_aspect_ratio.py` (3 test pass). Chưa đăng ký vào `QC_CHECKS` vì `checks/__init__.py` và `run.py` bị ghim sha1, nên `make run` không gọi nó.
 
 **(b) Dùng AI:** Claude Code (Sonnet) viết 4 module `label_format`, `autofix`, `gate`, `second_opinion`.
 - Prompt chính: dán đề bài Day 09 kèm yêu cầu tự triển khai, tự test, tự sửa theo docstring của từng stub.
