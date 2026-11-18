@@ -1,0 +1,32 @@
+{
+  "student": "Phạm Phú Nguyễn Hưng",
+  "mssv": "2A202604062",
+  "tests": {
+    "baseline": "55 failed, 24 passed",
+    "final": "79 passed"
+  },
+  "calibration": {
+    "duplicates.phash_dist": 12,
+    "second_opinion.conf": 0.6,
+    "report": "submission/calibration/calibration_report.md"
+  },
+  "pipeline": {
+    "decision": "Hold",
+    "exit_code": 10,
+    "images_raw": 224,
+    "images_accepted": 202,
+    "n_errors": 0,
+    "n_warn_images": 38,
+    "warn_ratio": 0.1881,
+    "reviewed": 80,
+    "config_sha1": "58d1755c0bdeff79633a6922dc2a1518c9d8b6d0"
+  },
+  "gate_proof": {
+    "cmd": "python -m pipeline.run --budget 0",
+    "decision": "Rework",
+    "exit_code": 20,
+    "exported": false
+  },
+  "train": "chưa chạy",
+  "check_core": "2 LỖI do check_submission.py trên Windows (so đường dẫn pipeline\\calibrate.py với khoá POSIX trong _protected.json); file calibrate.py khớp sha1"
+}
