@@ -1,0 +1,1458 @@
+FFFFFFFFFFF............FFFFFFFFFF....FFFFFFFFFFFFFF.....FFFFFFFFFFFFFFFF [ 91%]
+FFFF...                                                                  [100%]
+================================== FAILURES ===================================
+__________ test_drop_several_lines_in_one_file_uses_original_numbers __________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA76709010>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_drop_several_lines_in_one_file_uses_original_numbers(make_ds, cfg):
+        ds = make_ds(images={"a": 1}, labels={"a": ["1 .5 .5 .2 .2", "93 .5 .5 .2 .2", "1 .3 .3 .1 .1", "1 .5 .5 .2", "0 .7 .7 .1 .1"]})
+>       fx = autofix.fix(ds, [err("BAD_CLASS_ID", "a", 2), err("BAD_FORMAT", "a", 4)], cfg)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_autofix.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA765F6BA0>
+issues = [Issue(check='x', severity='error', code='BAD_CLASS_ID', image='a', message='m', line=2, extra={}), Issue(check='x', severity='error', code='BAD_FORMAT', image='a', message='m', line=4, extra={})]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def fix(ds, issues, cfg):
+        # TODO
+>       raise NotImplementedError("autofix chưa làm")
+E       NotImplementedError: autofix chưa làm
+
+pipeline\steps\autofix.py:39: NotImplementedError
+________________________________ test_clip_box ________________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7685E770>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_clip_box(make_ds, cfg):
+        ds = make_ds(images={"a": 1}, labels={"a": ["1 0.95 0.5 0.2 0.2"]})
+>       fx = autofix.fix(ds, [err("BOX_OUT_OF_IMAGE", "a", 1)], cfg)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_autofix.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA767E9D10>
+issues = [Issue(check='x', severity='error', code='BOX_OUT_OF_IMAGE', image='a', message='m', line=1, extra={})]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def fix(ds, issues, cfg):
+        # TODO
+>       raise NotImplementedError("autofix chưa làm")
+E       NotImplementedError: autofix chưa làm
+
+pipeline\steps\autofix.py:39: NotImplementedError
+_______________ test_box_fully_outside_is_dropped_not_negative ________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7685E8D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_box_fully_outside_is_dropped_not_negative(make_ds, cfg):
+        ds = make_ds(images={"a": 1}, labels={"a": ["1 -0.18 0.46 0.04 0.18", "1 0.5 0.5 0.2 0.2"]})
+>       fx = autofix.fix(ds, [err("BOX_OUT_OF_IMAGE", "a", 1)], cfg)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_autofix.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA767EA210>
+issues = [Issue(check='x', severity='error', code='BOX_OUT_OF_IMAGE', image='a', message='m', line=1, extra={})]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def fix(ds, issues, cfg):
+        # TODO
+>       raise NotImplementedError("autofix chưa làm")
+E       NotImplementedError: autofix chưa làm
+
+pipeline\steps\autofix.py:39: NotImplementedError
+_______________________ test_warnings_are_never_touched _______________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7685E980>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_warnings_are_never_touched(make_ds, cfg):
+        ds = make_ds(images={"a": 1}, labels={"a": ["1 .5 .5 .2 .2", "1 .5 .5 .001 .001"]})
+        before = lines(ds, "a")
+>       fx = autofix.fix(ds, [Issue("x", "warn", "BOX_TINY", "a", "m", 2)], cfg)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_autofix.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7689D220>
+issues = [Issue(check='x', severity='warn', code='BOX_TINY', image='a', message='m', line=2, extra={})]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def fix(ds, issues, cfg):
+        # TODO
+>       raise NotImplementedError("autofix chưa làm")
+E       NotImplementedError: autofix chưa làm
+
+pipeline\steps\autofix.py:39: NotImplementedError
+_____________________________ test_rename_classes _____________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7685F060>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_rename_classes(make_ds, cfg):
+        ds = make_ds(names=["car", "Person", "truck", "Bus"])
+>       fx = autofix.fix(ds, [err("BAD_CLASS_NAME", "data.yaml")], cfg)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_autofix.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7689CB00>
+issues = [Issue(check='x', severity='error', code='BAD_CLASS_NAME', image='data.yaml', message='m', line=None, extra={})]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def fix(ds, issues, cfg):
+        # TODO
+>       raise NotImplementedError("autofix chưa làm")
+E       NotImplementedError: autofix chưa làm
+
+pipeline\steps\autofix.py:39: NotImplementedError
+_____________________________ test_remove_images ______________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7685F530>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_remove_images(make_ds, cfg):
+        ds = make_ds(images={"a": 1, "b": 2}, labels={"a": ["1 .5 .5 .2 .2"], "b": ["1 .5 .5 .2 .2"]})
+>       fx = autofix.fix(ds, [err("DUP_IMAGE_EXACT", "b"), err("LEAK_TEST", "a")], cfg)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_autofix.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7677E690>
+issues = [Issue(check='x', severity='error', code='DUP_IMAGE_EXACT', image='b', message='m', line=None, extra={}), Issue(check='x', severity='error', code='LEAK_TEST', image='a', message='m', line=None, extra={})]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def fix(ds, issues, cfg):
+        # TODO
+>       raise NotImplementedError("autofix chưa làm")
+E       NotImplementedError: autofix chưa làm
+
+pipeline\steps\autofix.py:39: NotImplementedError
+__________ test_missing_label_goes_to_human_and_no_file_is_invented ___________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7685F5E0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_missing_label_goes_to_human_and_no_file_is_invented(make_ds, cfg):
+        ds = make_ds(images={"a": 1})
+>       fx = autofix.fix(ds, [err("MISSING_LABEL_FILE", "a")], cfg)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_autofix.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA76826690>
+issues = [Issue(check='x', severity='error', code='MISSING_LABEL_FILE', image='a', message='m', line=None, extra={})]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def fix(ds, issues, cfg):
+        # TODO
+>       raise NotImplementedError("autofix chưa làm")
+E       NotImplementedError: autofix chưa làm
+
+pipeline\steps\autofix.py:39: NotImplementedError
+_______________________________ test_idempotent _______________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7685FA00>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_idempotent(make_ds, cfg):
+        ds = make_ds(images={"a": 1}, labels={"a": ["1 .5 .5 .2 .2", "93 .5 .5 .2 .2"]})
+>       iss = label_format.run(ds, cfg)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_autofix.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA76826BE0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+__________ test_line_with_two_errors_is_dropped_once_and_not_clipped __________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA768B8040>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_line_with_two_errors_is_dropped_once_and_not_clipped(make_ds, cfg):
+        ds = make_ds(images={"a": 1}, labels={"a": ["1 .5 .5 .2 .2", "1 0.95 0.5 0.2 0.2", "0 .7 .7 .1 .1"]})
+>       fx = autofix.fix(ds, [err("BOX_OUT_OF_IMAGE", "a", 2), err("DUP_BOX", "a", 2)], cfg)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_autofix.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7688CE50>
+issues = [Issue(check='x', severity='error', code='BOX_OUT_OF_IMAGE', image='a', message='m', line=2, extra={}), Issue(check='x', severity='error', code='DUP_BOX', image='a', message='m', line=2, extra={})]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def fix(ds, issues, cfg):
+        # TODO
+>       raise NotImplementedError("autofix chưa làm")
+E       NotImplementedError: autofix chưa làm
+
+pipeline\steps\autofix.py:39: NotImplementedError
+____________ test_blank_line_does_not_shift_original_line_numbers _____________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA768B81A0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_blank_line_does_not_shift_original_line_numbers(make_ds, cfg):
+        ds = make_ds(images={"a": 1}, labels={"a": ["1 .5 .5 .2 .2", "", "93 .5 .5 .2 .2", "0 .7 .7 .1 .1"]})
+>       fx = autofix.fix(ds, [err("BAD_CLASS_ID", "a", 3)], cfg)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_autofix.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7688D550>
+issues = [Issue(check='x', severity='error', code='BAD_CLASS_ID', image='a', message='m', line=3, extra={})]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def fix(ds, issues, cfg):
+        # TODO
+>       raise NotImplementedError("autofix chưa làm")
+E       NotImplementedError: autofix chưa làm
+
+pipeline\steps\autofix.py:39: NotImplementedError
+_ test_issue_on_a_removed_image_does_not_crash_and_other_images_are_untouched _
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA768B8B40>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_issue_on_a_removed_image_does_not_crash_and_other_images_are_untouched(make_ds, cfg):
+        ds = make_ds(images={"a": 1, "b": 2}, labels={"a": ["1 .5 .5 .2 .2", "93 .5 .5 .2 .2"], "b": ["1 .5 .5 .2 .2"]})
+        before_b = ds.label_path("b").read_bytes()
+>       autofix.fix(ds, [err("DUP_IMAGE_EXACT", "a"), err("BAD_CLASS_ID", "a", 2)], cfg)
+
+tests\test_autofix.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA76845C70>
+issues = [Issue(check='x', severity='error', code='DUP_IMAGE_EXACT', image='a', message='m', line=None, extra={}), Issue(check='x', severity='error', code='BAD_CLASS_ID', image='a', message='m', line=2, extra={})]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def fix(ds, issues, cfg):
+        # TODO
+>       raise NotImplementedError("autofix chưa làm")
+E       NotImplementedError: autofix chưa làm
+
+pipeline\steps\autofix.py:39: NotImplementedError
+_________________________ test_rework_when_any_error __________________________
+
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_rework_when_any_error(cfg):
+>       d = gate.decide([iss("error", "i1")], STEMS, cfg)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_gate.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+issues = [Issue(check='c', severity='error', code='X', image='i1', message='m', line=None, extra={})]
+image_stems = ['i0', 'i1', 'i2', 'i3', 'i4', 'i5', ...]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+reviewed = frozenset()
+
+    def decide(issues, image_stems, cfg, reviewed=frozenset()):
+        # TODO
+>       raise NotImplementedError("gate chưa làm")
+E       NotImplementedError: gate chưa làm
+
+pipeline\steps\gate.py:24: NotImplementedError
+___________________ test_error_cannot_be_hidden_by_reviewed ___________________
+
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_error_cannot_be_hidden_by_reviewed(cfg):
+>       assert gate.decide([iss("error", "i1")], STEMS, cfg, reviewed={"i1"})["decision"] == "Rework"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_gate.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+issues = [Issue(check='c', severity='error', code='X', image='i1', message='m', line=None, extra={})]
+image_stems = ['i0', 'i1', 'i2', 'i3', 'i4', 'i5', ...]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+reviewed = {'i1'}
+
+    def decide(issues, image_stems, cfg, reviewed=frozenset()):
+        # TODO
+>       raise NotImplementedError("gate chưa làm")
+E       NotImplementedError: gate chưa làm
+
+pipeline\steps\gate.py:24: NotImplementedError
+_________________________ test_hold_at_or_above_ratio _________________________
+
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_hold_at_or_above_ratio(cfg):
+>       d = gate.decide([iss("warn", "i1"), iss("warn", "i2")], STEMS, cfg)         # 2/20 = 10% ≥ 10%
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_gate.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+issues = [Issue(check='c', severity='warn', code='X', image='i1', message='m', line=None, extra={}), Issue(check='c', severity='warn', code='X', image='i2', message='m', line=None, extra={})]
+image_stems = ['i0', 'i1', 'i2', 'i3', 'i4', 'i5', ...]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+reviewed = frozenset()
+
+    def decide(issues, image_stems, cfg, reviewed=frozenset()):
+        # TODO
+>       raise NotImplementedError("gate chưa làm")
+E       NotImplementedError: gate chưa làm
+
+pipeline\steps\gate.py:24: NotImplementedError
+__________________________ test_release_below_ratio ___________________________
+
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_release_below_ratio(cfg):
+>       assert gate.decide([iss("warn", "i1")], STEMS, cfg)["decision"] == "Release"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_gate.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+issues = [Issue(check='c', severity='warn', code='X', image='i1', message='m', line=None, extra={})]
+image_stems = ['i0', 'i1', 'i2', 'i3', 'i4', 'i5', ...]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+reviewed = frozenset()
+
+    def decide(issues, image_stems, cfg, reviewed=frozenset()):
+        # TODO
+>       raise NotImplementedError("gate chưa làm")
+E       NotImplementedError: gate chưa làm
+
+pipeline\steps\gate.py:24: NotImplementedError
+________________________ test_counts_images_not_issues ________________________
+
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_counts_images_not_issues(cfg):
+>       d = gate.decide([iss("warn", "i1", "A"), iss("warn", "i1", "B"), iss("warn", "i1", "C")], STEMS, cfg)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_gate.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+issues = [Issue(check='c', severity='warn', code='A', image='i1', message='m', line=None, extra={}), Issue(check='c', severity=...e='m', line=None, extra={}), Issue(check='c', severity='warn', code='C', image='i1', message='m', line=None, extra={})]
+image_stems = ['i0', 'i1', 'i2', 'i3', 'i4', 'i5', ...]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+reviewed = frozenset()
+
+    def decide(issues, image_stems, cfg, reviewed=frozenset()):
+        # TODO
+>       raise NotImplementedError("gate chưa làm")
+E       NotImplementedError: gate chưa làm
+
+pipeline\steps\gate.py:24: NotImplementedError
+__________ test_reviewed_images_and_dataset_level_issues_are_ignored __________
+
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_reviewed_images_and_dataset_level_issues_are_ignored(cfg):
+        issues = [iss("warn", "i1"), iss("warn", "i2"), iss("warn", "<dataset>"), iss("warn", "data.yaml")]
+>       d = gate.decide(issues, STEMS, cfg, reviewed={"i1", "i2"})
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_gate.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+issues = [Issue(check='c', severity='warn', code='X', image='i1', message='m', line=None, extra={}), Issue(check='c', severity=...line=None, extra={}), Issue(check='c', severity='warn', code='X', image='data.yaml', message='m', line=None, extra={})]
+image_stems = ['i0', 'i1', 'i2', 'i3', 'i4', 'i5', ...]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+reviewed = {'i1', 'i2'}
+
+    def decide(issues, image_stems, cfg, reviewed=frozenset()):
+        # TODO
+>       raise NotImplementedError("gate chưa làm")
+E       NotImplementedError: gate chưa làm
+
+pipeline\steps\gate.py:24: NotImplementedError
+_________________________________ test_clean __________________________________
+
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_clean(cfg):
+>       d = gate.decide([], STEMS, cfg)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_gate.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+issues = [], image_stems = ['i0', 'i1', 'i2', 'i3', 'i4', 'i5', ...]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+reviewed = frozenset()
+
+    def decide(issues, image_stems, cfg, reviewed=frozenset()):
+        # TODO
+>       raise NotImplementedError("gate chưa làm")
+E       NotImplementedError: gate chưa làm
+
+pipeline\steps\gate.py:24: NotImplementedError
+_________________ test_empty_dataset_does_not_divide_by_zero __________________
+
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_empty_dataset_does_not_divide_by_zero(cfg):
+>       d = gate.decide([], [], cfg)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_gate.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+issues = [], image_stems = []
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+reviewed = frozenset()
+
+    def decide(issues, image_stems, cfg, reviewed=frozenset()):
+        # TODO
+>       raise NotImplementedError("gate chưa làm")
+E       NotImplementedError: gate chưa làm
+
+pipeline\steps\gate.py:24: NotImplementedError
+______________ test_exact_ratio_boundary_with_other_denominator _______________
+
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_exact_ratio_boundary_with_other_denominator(cfg):
+        stems = [f"i{k}" for k in range(30)]
+>       d = gate.decide([iss("warn", f"i{k}") for k in range(3)], stems, cfg)       # 3/30 = 10% đúng ngưỡng
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_gate.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+issues = [Issue(check='c', severity='warn', code='X', image='i0', message='m', line=None, extra={}), Issue(check='c', severity=...e='m', line=None, extra={}), Issue(check='c', severity='warn', code='X', image='i2', message='m', line=None, extra={})]
+image_stems = ['i0', 'i1', 'i2', 'i3', 'i4', 'i5', ...]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+reviewed = frozenset()
+
+    def decide(issues, image_stems, cfg, reviewed=frozenset()):
+        # TODO
+>       raise NotImplementedError("gate chưa làm")
+E       NotImplementedError: gate chưa làm
+
+pipeline\steps\gate.py:24: NotImplementedError
+_____________ test_warning_on_image_not_in_the_dataset_is_ignored _____________
+
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_warning_on_image_not_in_the_dataset_is_ignored(cfg):
+>       assert gate.decide([iss("warn", "đã_bị_xoá"), iss("warn", "i1")], STEMS, cfg)["n_warn_images"] == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_gate.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+issues = [Issue(check='c', severity='warn', code='X', image='đã_bị_xoá', message='m', line=None, extra={}), Issue(check='c', severity='warn', code='X', image='i1', message='m', line=None, extra={})]
+image_stems = ['i0', 'i1', 'i2', 'i3', 'i4', 'i5', ...]
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+reviewed = frozenset()
+
+    def decide(issues, image_stems, cfg, reviewed=frozenset()):
+        # TODO
+>       raise NotImplementedError("gate chưa làm")
+E       NotImplementedError: gate chưa làm
+
+pipeline\steps\gate.py:24: NotImplementedError
+______________________________ test_clean_lines _______________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F38C5C0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_clean_lines(make_ds, cfg):
+>       assert run(make_ds, cfg, ["1 0.5 0.5 0.2 0.3", "0 0.1 0.6 0.15 0.25"]) == []   # biên trái 0.1-0.075=0.025 ổn
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F31ED50>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+______________________ test_bad_format_and_line_numbers _______________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F38FC10>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_bad_format_and_line_numbers(make_ds, cfg):
+>       iss = run(make_ds, cfg, ["1 0.5 0.5 0.2 0.3", "1 0.5 0.5 0.2", "x 0.5 0.5 0.2 0.3", "1 nan 0.5 0.2 0.3", "1 0.5 0.5 0.2 0.3 0.9"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3CDC50>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+______________________________ test_bad_class_id ______________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F0460>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_bad_class_id(make_ds, cfg):
+>       iss = run(make_ds, cfg, ["93 0.5 0.5 0.2 0.3", "4 0.5 0.5 0.2 0.3", "-1 0.5 0.5 0.2 0.3", "3 0.5 0.5 0.2 0.3"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3CE5D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+_________________________ test_overflow_vs_tolerance __________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F38E090>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_overflow_vs_tolerance(make_ds, cfg):
+        # dòng 2 tràn 0.05 (báo); dòng 3 tràn 0.0005 < tol 0.001 (không báo); dòng 4 biên đúng 1.0 (không báo)
+>       iss = run(make_ds, cfg, ["1 0.5 0.5 0.2 0.3", "2 0.95 0.5 0.2 0.3", "1 0.9005 0.5 0.2 0.3", "1 0.9 0.5 0.2 0.3"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F31FF50>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+________________________ test_overflow_all_four_edges _________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F05C0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_overflow_all_four_edges(make_ds, cfg):
+>       iss = run(make_ds, cfg, ["1 0.05 0.5 0.2 0.3", "1 0.5 0.05 0.2 0.3", "1 0.95 0.5 0.2 0.3", "1 0.5 0.95 0.2 0.3"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3CE650>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+_______________________________ test_zero_size ________________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F0CA0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_zero_size(make_ds, cfg):
+>       iss = run(make_ds, cfg, ["1 0.5 0.5 0 0.3", "1 0.5 0.5 0.2 0.0"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3CDC50>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+____________________ test_duplicate_box_reports_later_line ____________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F1380>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_duplicate_box_reports_later_line(make_ds, cfg):
+>       iss = run(make_ds, cfg, ["1 0.5 0.5 0.2 0.3", "0 0.2 0.2 0.1 0.1", "1 0.501 0.5 0.2 0.3", "2 0.5 0.5 0.2 0.3"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3CF350>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+_______________________ test_tiny_and_huge_are_warnings _______________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F1640>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_tiny_and_huge_are_warnings(make_ds, cfg):
+>       iss = run(make_ds, cfg, ["1 0.5 0.5 0.01 0.3", "1 0.5 0.5 0.99 0.99"], size=(640, 480))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F31E950>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+___________________ test_blank_lines_keep_original_numbers ____________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F0B40>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_blank_lines_keep_original_numbers(make_ds, cfg):
+        ds = make_ds(images={"a": 1})
+        (ds.labels_dir / "a.txt").write_text("1 0.5 0.5 0.2 0.3\n\n\n93 0.5 0.5 0.2 0.3\n")
+>       assert find(label_format.run(ds, cfg), "BAD_CLASS_ID") == [("a", 4)]
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:61: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3CF3D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+________ test_broken_line_does_not_crash_and_other_lines_still_checked ________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F17A0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_broken_line_does_not_crash_and_other_lines_still_checked(make_ds, cfg):
+>       iss = run(make_ds, cfg, ["garbage", "1 0.97 0.5 0.2 0.3"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3CF950>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+_________________ test_tiny_when_the_short_side_is_the_height _________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F1FE0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_tiny_when_the_short_side_is_the_height(make_ds, cfg):
+>       iss = run(make_ds, cfg, ["1 0.5 0.5 0.5 0.01"])                 # cao 0.01*480 = 4.8 px
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3DC0D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+_______________ test_overflow_at_bottom_edge_and_exact_boundary _______________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F1DD0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_overflow_at_bottom_edge_and_exact_boundary(make_ds, cfg):
+>       iss = run(make_ds, cfg, ["1 0.5 0.97 0.2 0.1", "1 0.5 0.95 0.2 0.1"])   # dòng 1 chạm y=1.02 (tràn); dòng 2 chạm đúng 1.0 (ổn)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3CF750>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+_________________ test_blank_line_keeps_original_line_numbers _________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F0930>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_blank_line_keeps_original_line_numbers(make_ds, cfg):
+>       iss = run(make_ds, cfg, ["1 0.5 0.5 0.2 0.3", "", "93 0.5 0.5 0.2 0.3"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3DC050>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+___________________ test_duplicate_box_needs_the_same_class ___________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F2400>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_duplicate_box_needs_the_same_class(make_ds, cfg):
+>       same = run(make_ds, cfg, ["1 0.5 0.5 0.2 0.3", "1 0.5 0.5 0.2 0.3"])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_label_format.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_label_format.py:10: in run
+    return label_format.run(ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3DC8D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+__________________________ test_one_command_pipeline __________________________
+
+tmp_path = WindowsPath('C:/Users/ppnh1/AppData/Local/Temp/pytest-of-ppnh1/pytest-22/test_one_command_pipeline0')
+
+    def test_one_command_pipeline(tmp_path):
+>       code, rep, exp = go(tmp_path, "1")
+                         ^^^^^^^^^^^^^^^^^
+
+tests\test_pipeline_e2e.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pipeline_e2e.py:10: in go
+    code = run.main(argv)
+           ^^^^^^^^^^^^^^
+pipeline\run.py:106: in main
+    issues1 = qc(ds, cfg)
+              ^^^^^^^^^^^
+pipeline\run.py:35: in qc
+    return checks.run_checks(checks.QC_CHECKS, ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pipeline\checks\__init__.py:20: in run_checks
+    out.extend(load(n).run(ds, cfg))
+               ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3BE050>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'models': {'checker': {'weights': 'yolo26l.pt', 'conf': 0.1, 'cache': '...n_side_px': 250, 'reference_dirs': ['data/test/images', 'data/gold_val/images']}, 'duplicates': {'phash_dist': 2}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+---------------------------- Captured stdout call -----------------------------
+[16:44:17] Bước 1/5  Nhận dữ liệu (ảnh hỏng, kích thước, trùng, rò rỉ test)
+[16:44:23]           nhận 205/224 ảnh, loại 19
+[16:44:23] Bước 4/5  QC tự động — vòng 1 (nhãn thô)
+______________________ test_deterministic_and_repeatable ______________________
+
+tmp_path = WindowsPath('C:/Users/ppnh1/AppData/Local/Temp/pytest-of-ppnh1/pytest-22/test_deterministic_and_repeata0')
+
+    def test_deterministic_and_repeatable(tmp_path):
+>       c1, r1, _ = go(tmp_path, "a")
+                    ^^^^^^^^^^^^^^^^^
+
+tests\test_pipeline_e2e.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_pipeline_e2e.py:10: in go
+    code = run.main(argv)
+           ^^^^^^^^^^^^^^
+pipeline\run.py:106: in main
+    issues1 = qc(ds, cfg)
+              ^^^^^^^^^^^
+pipeline\run.py:35: in qc
+    return checks.run_checks(checks.QC_CHECKS, ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pipeline\checks\__init__.py:20: in run_checks
+    out.extend(load(n).run(ds, cfg))
+               ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3BFCD0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'models': {'checker': {'weights': 'yolo26l.pt', 'conf': 0.1, 'cache': '...n_side_px': 250, 'reference_dirs': ['data/test/images', 'data/gold_val/images']}, 'duplicates': {'phash_dist': 2}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+---------------------------- Captured stdout call -----------------------------
+[16:44:24] Bước 1/5  Nhận dữ liệu (ảnh hỏng, kích thước, trùng, rò rỉ test)
+[16:44:27]           nhận 205/224 ảnh, loại 19
+[16:44:27] Bước 4/5  QC tự động — vòng 1 (nhãn thô)
+___________________ test_pause_then_resume_with_human_edits ___________________
+
+tmp_path = WindowsPath('C:/Users/ppnh1/AppData/Local/Temp/pytest-of-ppnh1/pytest-22/test_pause_then_resume_with_hu0')
+
+    def test_pause_then_resume_with_human_edits(tmp_path):
+        """Người duyệt thật: --no-review dừng (mã 30); sửa nhãn vài ảnh đầu hàng đợi; --resume-after-review tính đúng số ảnh đã duyệt."""
+        base = ["--work", str(tmp_path / "w"), "--reports", str(tmp_path / "r"), "--export-dir", str(tmp_path / "e")]
+>       assert run.main(base + ["--no-review"]) == 30
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pipeline_e2e.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+pipeline\run.py:106: in main
+    issues1 = qc(ds, cfg)
+              ^^^^^^^^^^^
+pipeline\run.py:35: in qc
+    return checks.run_checks(checks.QC_CHECKS, ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pipeline\checks\__init__.py:20: in run_checks
+    out.extend(load(n).run(ds, cfg))
+               ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F31E6D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'models': {'checker': {'weights': 'yolo26l.pt', 'conf': 0.1, 'cache': '...n_side_px': 250, 'reference_dirs': ['data/test/images', 'data/gold_val/images']}, 'duplicates': {'phash_dist': 2}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+---------------------------- Captured stdout call -----------------------------
+[16:44:27] Bước 1/5  Nhận dữ liệu (ảnh hỏng, kích thước, trùng, rò rỉ test)
+[16:44:30]           nhận 205/224 ảnh, loại 19
+[16:44:30] Bước 4/5  QC tự động — vòng 1 (nhãn thô)
+________________ test_blank_line_edit_does_not_count_as_review ________________
+
+tmp_path = WindowsPath('C:/Users/ppnh1/AppData/Local/Temp/pytest-of-ppnh1/pytest-22/test_blank_line_edit_does_not_0')
+
+    def test_blank_line_edit_does_not_count_as_review(tmp_path):
+        """Thêm dòng trống / khoảng trắng vào nhãn KHÔNG được tính là 'người đã duyệt' (chống gian lận ngân sách)."""
+        base = ["--work", str(tmp_path / "w"), "--reports", str(tmp_path / "r"), "--export-dir", str(tmp_path / "e")]
+>       assert run.main(base + ["--no-review"]) == 30
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_pipeline_e2e.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+pipeline\run.py:106: in main
+    issues1 = qc(ds, cfg)
+              ^^^^^^^^^^^
+pipeline\run.py:35: in qc
+    return checks.run_checks(checks.QC_CHECKS, ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pipeline\checks\__init__.py:20: in run_checks
+    out.extend(load(n).run(ds, cfg))
+               ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3DE7D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'models': {'checker': {'weights': 'yolo26l.pt', 'conf': 0.1, 'cache': '...n_side_px': 250, 'reference_dirs': ['data/test/images', 'data/gold_val/images']}, 'duplicates': {'phash_dist': 2}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+---------------------------- Captured stdout call -----------------------------
+[16:44:30] Bước 1/5  Nhận dữ liệu (ảnh hỏng, kích thước, trùng, rò rỉ test)
+[16:44:33]           nhận 205/224 ảnh, loại 19
+[16:44:33] Bước 4/5  QC tự động — vòng 1 (nhãn thô)
+_________________________ test_export_on_rework_flag __________________________
+
+tmp_path = WindowsPath('C:/Users/ppnh1/AppData/Local/Temp/pytest-of-ppnh1/pytest-22/test_export_on_rework_flag0')
+
+    def test_export_on_rework_flag(tmp_path):
+        base = ["--work", str(tmp_path / "w"), "--reports", str(tmp_path / "r"), "--export-dir", str(tmp_path / "e"), "--budget", "0"]
+>       assert run.main(base) == 20 and not (tmp_path / "e" / "clean_v1").exists()
+               ^^^^^^^^^^^^^^
+
+tests\test_pipeline_e2e.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+pipeline\run.py:106: in main
+    issues1 = qc(ds, cfg)
+              ^^^^^^^^^^^
+pipeline\run.py:35: in qc
+    return checks.run_checks(checks.QC_CHECKS, ds, cfg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pipeline\checks\__init__.py:20: in run_checks
+    out.extend(load(n).run(ds, cfg))
+               ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F431A50>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'models': {'checker': {'weights': 'yolo26l.pt', 'conf': 0.1, 'cache': '...n_side_px': 250, 'reference_dirs': ['data/test/images', 'data/gold_val/images']}, 'duplicates': {'phash_dist': 2}, ...}
+
+    def run(ds, cfg):
+        # TODO: duyệt từng file nhãn, từng dòng
+>       raise NotImplementedError("check label_format chưa làm")
+E       NotImplementedError: check label_format chưa làm
+
+pipeline\checks\label_format.py:29: NotImplementedError
+---------------------------- Captured stdout call -----------------------------
+[16:44:33] Bước 1/5  Nhận dữ liệu (ảnh hỏng, kích thước, trùng, rò rỉ test)
+[16:44:36]           nhận 205/224 ảnh, loại 19
+[16:44:36] Bước 4/5  QC tự động — vòng 1 (nhãn thô)
+__________________________ test_agreement_is_silent ___________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F459220>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_agreement_is_silent(make_ds, cfg):
+>       assert run(make_ds, cfg, [CAR], [pred()]) == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3BE5D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+____________________________ test_possible_missing ____________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F45A350>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_possible_missing(make_ds, cfg):
+>       got = run(make_ds, cfg, [CAR], [pred(), pred(1, 0.95, (0.15, 0.3, 0.12, 0.3))])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F4311D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4], [1, 0.95, 0.15, 0.3, 0.12, 0.3]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+______________________________ test_wrong_class _______________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F45A980>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_wrong_class(make_ds, cfg):
+>       assert run(make_ds, cfg, ["2 0.5 0.5 0.3 0.4"], [pred(0)]) == [("POSSIBLE_WRONG_CLASS", None)]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F430D50>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+_______________________________ test_loose_box ________________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F45B060>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_loose_box(make_ds, cfg):
+        loose = "0 0.5 0.5 0.46 0.6"          # IoU với box model ≈ 0.43 (≥ iou_missing 0.3, < iou_loose 0.6)
+>       assert run(make_ds, cfg, [loose], [pred()]) == [("POSSIBLE_LOOSE_BOX", None)]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F4A3350>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+___________________ test_false_positive_reports_line_number ___________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F3F3A00>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_false_positive_reports_line_number(make_ds, cfg):
+>       got = run(make_ds, cfg, [CAR, "1 0.1 0.1 0.1 0.1"], [pred()])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F431650>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+____________ test_low_confidence_prediction_is_ignored_for_missing ____________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F45A8D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_low_confidence_prediction_is_ignored_for_missing(make_ds, cfg):
+>       assert run(make_ds, cfg, [CAR], [pred(), pred(1, 0.3, (0.15, 0.3, 0.12, 0.3))]) == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F430DD0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4], [1, 0.3, 0.15, 0.3, 0.12, 0.3]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+_______________________ test_tiny_prediction_is_ignored _______________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F45AA30>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_tiny_prediction_is_ignored(make_ds, cfg):
+        tiny = pred(1, 0.95, (0.15, 0.3, 0.02, 0.03))          # 0.02*640 × 0.03*480 ≈ 184 px² < 600
+>       assert run(make_ds, cfg, [CAR], [pred(), tiny]) == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F4310D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4], [1, 0.95, 0.15, 0.3, 0.02, 0.03]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+______________________ test_thresholds_come_from_config _______________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F45A090>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_thresholds_come_from_config(make_ds, cfg):
+        cfg["second_opinion"]["conf"] = 0.99
+>       assert run(make_ds, cfg, ["2 0.5 0.5 0.3 0.4"], [pred(0, 0.9)]) == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F431050>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+______________ test_image_without_label_file_or_preds_is_skipped ______________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F4597A0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_image_without_label_file_or_preds_is_skipped(make_ds, cfg):
+        ds = make_ds(images={"a": 1, "b": 2}, labels={"a": [CAR]})
+>       assert so.run(ds, cfg, preds={"a": [pred()]}) == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F430050>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+_________________________ test_bad_lines_do_not_crash _________________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F45B320>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_bad_lines_do_not_crash(make_ds, cfg):
+>       assert run(make_ds, cfg, [CAR, "garbage", "93 0.5 0.5 0.2 0.2"], [pred()]) == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F4338D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+____________ test_false_positive_uses_fp_conf_and_ignores_min_area ____________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F458EB0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_false_positive_uses_fp_conf_and_ignores_min_area(make_ds, cfg):
+        low = pred(1, 0.3, (0.15, 0.3, 0.12, 0.3))                       # conf 0.3: dưới `conf` (0.5) nhưng trên `fp_conf` (0.25)
+        tiny = pred(1, 0.95, (0.8, 0.8, 0.02, 0.03))                     # rất nhỏ (< min_area_px) nhưng vẫn là dự đoán "khớp" với nhãn
+        labels = [CAR, "1 0.15 0.3 0.12 0.3", "1 0.8 0.8 0.02 0.03"]
+>       assert run(make_ds, cfg, labels, [pred(), low, tiny]) == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F2167D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4], [1, 0.3, 0.15, 0.3, 0.12, 0.3], [1, 0.95, 0.8, 0.8, 0.02, 0.03]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+__________ test_two_predictions_give_two_issues_in_prediction_order ___________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F4580F0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_two_predictions_give_two_issues_in_prediction_order(make_ds, cfg):
+        p1, p2 = pred(1, 0.9, (0.15, 0.3, 0.12, 0.3)), pred(2, 0.9, (0.85, 0.7, 0.12, 0.3))
+>       assert run(make_ds, cfg, [CAR], [pred(), p1, p2]) == [("POSSIBLE_MISSING", None), ("POSSIBLE_MISSING", None)]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F215CD0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4], [1, 0.9, 0.15, 0.3, 0.12, 0.3], [2, 0.9, 0.85, 0.7, 0.12, 0.3]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+____________ test_false_positive_line_number_survives_blank_lines _____________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F458930>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_false_positive_line_number_survives_blank_lines(make_ds, cfg):
+>       assert run(make_ds, cfg, [CAR, "", "1 0.1 0.1 0.1 0.1"], [pred()]) == [("POSSIBLE_FALSE_POS", 3)]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F4323D0>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+________________ test_other_class_with_ambiguous_iou_is_silent ________________
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F45A770>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_other_class_with_ambiguous_iou_is_silent(make_ds, cfg):
+        # nhãn lớp 2, model nói lớp 0, IoU ≈ 0.43: ≥ iou_missing (0.3) nhưng < iou_match (0.5) -> không cờ gì
+>       assert run(make_ds, cfg, ["2 0.5 0.5 0.3 0.4"], [pred(0, 0.9, (0.62, 0.5, 0.3, 0.4))]) == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3BE550>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.62, 0.5, 0.3, 0.4]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+____ test_same_class_label_covers_the_object_even_if_other_class_overlaps _____
+
+make_ds = <function make_ds.<locals>._make at 0x000002AA7F45B740>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+
+    def test_same_class_label_covers_the_object_even_if_other_class_overlaps(make_ds, cfg):
+>       assert run(make_ds, cfg, [CAR, "2 0.5 0.5 0.3 0.4"], [pred()]) == []
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_second_opinion.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_second_opinion.py:6: in run
+    return [(i.code, i.line) for i in so.run(ds, cfg, preds={"a": preds})]
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+ds = <pipeline.common.Dataset object at 0x000002AA7F3BE350>
+cfg = {'classes': ['car', 'person', 'truck', 'bus'], 'class_aliases': {'Person': 'person'}, 'intake': {'min_side_px': 200, 'reference_dirs': []}, 'duplicates': {'phash_dist': 8}, ...}
+preds = {'a': [[0, 0.9, 0.5, 0.5, 0.3, 0.4]]}
+
+    def run(ds, cfg, preds=None):
+        # TODO
+>       raise NotImplementedError("check second_opinion chưa làm")
+E       NotImplementedError: check second_opinion chưa làm
+
+pipeline\checks\second_opinion.py:44: NotImplementedError
+=========================== short test summary info ===========================
+FAILED tests\test_autofix.py::test_drop_several_lines_in_one_file_uses_original_numbers
+FAILED tests\test_autofix.py::test_clip_box - NotImplementedError: autofix ch...
+FAILED tests\test_autofix.py::test_box_fully_outside_is_dropped_not_negative
+FAILED tests\test_autofix.py::test_warnings_are_never_touched - NotImplemente...
+FAILED tests\test_autofix.py::test_rename_classes - NotImplementedError: auto...
+FAILED tests\test_autofix.py::test_remove_images - NotImplementedError: autof...
+FAILED tests\test_autofix.py::test_missing_label_goes_to_human_and_no_file_is_invented
+FAILED tests\test_autofix.py::test_idempotent - NotImplementedError: check la...
+FAILED tests\test_autofix.py::test_line_with_two_errors_is_dropped_once_and_not_clipped
+FAILED tests\test_autofix.py::test_blank_line_does_not_shift_original_line_numbers
+FAILED tests\test_autofix.py::test_issue_on_a_removed_image_does_not_crash_and_other_images_are_untouched
+FAILED tests\test_gate.py::test_rework_when_any_error - NotImplementedError: ...
+FAILED tests\test_gate.py::test_error_cannot_be_hidden_by_reviewed - NotImple...
+FAILED tests\test_gate.py::test_hold_at_or_above_ratio - NotImplementedError:...
+FAILED tests\test_gate.py::test_release_below_ratio - NotImplementedError: ga...
+FAILED tests\test_gate.py::test_counts_images_not_issues - NotImplementedErro...
+FAILED tests\test_gate.py::test_reviewed_images_and_dataset_level_issues_are_ignored
+FAILED tests\test_gate.py::test_clean - NotImplementedError: gate chưa làm
+FAILED tests\test_gate.py::test_empty_dataset_does_not_divide_by_zero - NotIm...
+FAILED tests\test_gate.py::test_exact_ratio_boundary_with_other_denominator
+FAILED tests\test_gate.py::test_warning_on_image_not_in_the_dataset_is_ignored
+FAILED tests\test_label_format.py::test_clean_lines - NotImplementedError: ch...
+FAILED tests\test_label_format.py::test_bad_format_and_line_numbers - NotImpl...
+FAILED tests\test_label_format.py::test_bad_class_id - NotImplementedError: c...
+FAILED tests\test_label_format.py::test_overflow_vs_tolerance - NotImplemente...
+FAILED tests\test_label_format.py::test_overflow_all_four_edges - NotImplemen...
+FAILED tests\test_label_format.py::test_zero_size - NotImplementedError: chec...
+FAILED tests\test_label_format.py::test_duplicate_box_reports_later_line - No...
+FAILED tests\test_label_format.py::test_tiny_and_huge_are_warnings - NotImple...
+FAILED tests\test_label_format.py::test_blank_lines_keep_original_numbers - N...
+FAILED tests\test_label_format.py::test_broken_line_does_not_crash_and_other_lines_still_checked
+FAILED tests\test_label_format.py::test_tiny_when_the_short_side_is_the_height
+FAILED tests\test_label_format.py::test_overflow_at_bottom_edge_and_exact_boundary
+FAILED tests\test_label_format.py::test_blank_line_keeps_original_line_numbers
+FAILED tests\test_label_format.py::test_duplicate_box_needs_the_same_class - ...
+FAILED tests\test_pipeline_e2e.py::test_one_command_pipeline - NotImplemented...
+FAILED tests\test_pipeline_e2e.py::test_deterministic_and_repeatable - NotImp...
+FAILED tests\test_pipeline_e2e.py::test_pause_then_resume_with_human_edits - ...
+FAILED tests\test_pipeline_e2e.py::test_blank_line_edit_does_not_count_as_review
+FAILED tests\test_pipeline_e2e.py::test_export_on_rework_flag - NotImplemente...
+FAILED tests\test_second_opinion.py::test_agreement_is_silent - NotImplemente...
+FAILED tests\test_second_opinion.py::test_possible_missing - NotImplementedEr...
+FAILED tests\test_second_opinion.py::test_wrong_class - NotImplementedError: ...
+FAILED tests\test_second_opinion.py::test_loose_box - NotImplementedError: ch...
+FAILED tests\test_second_opinion.py::test_false_positive_reports_line_number
+FAILED tests\test_second_opinion.py::test_low_confidence_prediction_is_ignored_for_missing
+FAILED tests\test_second_opinion.py::test_tiny_prediction_is_ignored - NotImp...
+FAILED tests\test_second_opinion.py::test_thresholds_come_from_config - NotIm...
+FAILED tests\test_second_opinion.py::test_image_without_label_file_or_preds_is_skipped
+FAILED tests\test_second_opinion.py::test_bad_lines_do_not_crash - NotImpleme...
+FAILED tests\test_second_opinion.py::test_false_positive_uses_fp_conf_and_ignores_min_area
+FAILED tests\test_second_opinion.py::test_two_predictions_give_two_issues_in_prediction_order
+FAILED tests\test_second_opinion.py::test_false_positive_line_number_survives_blank_lines
+FAILED tests\test_second_opinion.py::test_other_class_with_ambiguous_iou_is_silent
+FAILED tests\test_second_opinion.py::test_same_class_label_covers_the_object_even_if_other_class_overlaps
+55 failed, 24 passed in 26.30s
